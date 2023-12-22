@@ -15,10 +15,9 @@ jobs:
 
       - name: Generate Index and Logs
         run: |
-          echo "<html><body><h1>Project Index</h1><ul>" > index.html
-          find . -maxdepth 1 -type d ! -path . | sed 's|^./||' | awk '{print "<li><a href=\""$1"\">"$1"</a></li>"}' >> index.html
+          echo "<html><head><style>body {font-family: 'Arial', sans-serif;} h1 {color: #333;} ul {list-style: none; padding: 0;} li {margin-bottom: 8px;} a {text-decoration: none; color: #0366d6;} a:hover {text-decoration: underline;}</style></head><body><h1>Project Index</h1><ul>" > index.html
+          find . -maxdepth 1 -type d ! -path . ! -name ".git" ! -name ".github" | sed 's|^./||' | awk '{print "<li><a href=\""$1"\">"$1"</a></li>"}' >> index.html
           echo "</ul></body></html>" >> index.html
-
           echo "Generated index.html at $(date)" > update.log
 
       - name: Commit and Push Changes
