@@ -1,28 +1,30 @@
-name: Generate Index
+name: Update Index and Logs
 
 on:
   push:
     branches:
-      - main 
+      - main
 
 jobs:
-  build:
+  update_index:
     runs-on: ubuntu-latest
+
     steps:
-    - uses: actions/checkout@v2
-    - name: List directories
-      run: |
-        echo '<html><head><title>Project Index</title></head><body>' > index.html
-        echo '<h1>Projects</h1>' >> index.html
-        echo '<ul>' >> index.html
-        for d in */; do
-          echo "<li><a href=\"$d\">$d</a></li>" >> index.html
-        done
-        echo '</ul></body></html>' >> index.html
-    - name: Commit and push index.html
-      run: | 
-        git config --local user.email "action@github.com"
-        git config --local user.name "GitHub Action"
-        git add index.html
-        git commit -m "Update project index" || exit 0
-        git push origin || exit 0
+      - name: Checkout Repository
+        uses: actions/checkout@v2
+
+      - name: Generate Index and Logs
+        run: |
+          echo "<html><body><h1>Project Index</h1><ul>" > index.html
+          find . -maxdepth 1 -type d ! -path . | sed 's|^./||' | awk '{print "<li><a href=\""$1"\">"$1"</a></li>"}' >> index.html
+          echo "</ul></body></html>" >> index.html
+
+          echo "Generated index.html at $(date)" > update.log
+
+      - name: Commit and Push Changes
+        run: |
+          git config --global user.name 'GitHub Actions'
+          git config --global user.email 'actions@github.com'
+          git add index.html update.log
+          git commit -m "Update project index and logs [skip ci]"
+          git push
