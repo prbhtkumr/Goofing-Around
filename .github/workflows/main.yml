@@ -1,0 +1,28 @@
+name: Generate Index
+
+on:
+  push:
+    branches:
+      - main 
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    steps:
+    - uses: actions/checkout@v2
+    - name: List directories
+      run: |
+        echo '<html><head><title>Project Index</title></head><body>' > index.html
+        echo '<h1>Projects</h1>' >> index.html
+        echo '<ul>' >> index.html
+        for d in */; do
+          echo "<li><a href=\"$d\">$d</a></li>" >> index.html
+        done
+        echo '</ul></body></html>' >> index.html
+    - name: Commit and push index.html
+      run: | 
+        git config --local user.email "action@github.com"
+        git config --local user.name "GitHub Action"
+        git add index.html
+        git commit -m "Update project index" || exit 0
+        git push origin || exit 0
