@@ -1,0 +1,61 @@
+:root {
+  --purple: #2c1734;
+  --light-purple: #7d67df;
+}
+
+html,
+body {
+  height: 100%; 
+  margin: 0;
+  padding: 0; 
+}
+
+body {
+  background-image: radial-gradient(var(--purple), #0c0a27);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.timerBtn {
+  width: 80px; 
+  height: 30px;
+  border: 3px solid #150366;
+  border-radius: 12px;
+  color: rgb(7, 1, 24);
+  background-color: var(--light-purple);
+  cursor: pointer;
+  font-family: 'Orbitron', sans-serif;
+
+  transition: 0.5s;  
+}
+
+.timerBtn:hover {
+  border-color: gray;
+  color: white;
+  background-color: var(--purple);
+}
+
+#timeDisplay {
+  font-size: 75px;
+  color: var(--light-purple);
+  font-family: consolas, monospace;
+  /* font-family: 'Orbitron', sans-serif; */
+  /* font-family: 'Source Code Pro', Courier, monospace; */
+  padding-bottom: 5%; 
+  text-align: center;
+}
+
+#timeContainer {
+  background-image: radial-gradient(#150366, #0c0a27);
+  border: 3px solid;
+  border-radius: 25px;
+  flex-shrink: 0;
+  background-color: #222222;   
+  padding: 5%;
+}
+
+#controlBtn {
+  display: flex;
+  justify-content: space-around;   
+}
